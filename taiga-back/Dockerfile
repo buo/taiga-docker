@@ -1,6 +1,6 @@
 FROM python:3.4
 
-MAINTAINER Hylke Visser <htdvisser@gmail.com>
+MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
 # Install dependencies
 RUN \
@@ -18,6 +18,7 @@ RUN \
   cd /usr/local/taiga/taiga-back && \
   git checkout stable && \
   pip install -r requirements.txt && \
+  pip install taiga-contrib-slack && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
   touch /usr/local/taiga/circus.ini
 

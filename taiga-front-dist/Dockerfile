@@ -26,6 +26,8 @@ RUN \
 ADD ./configure /usr/local/taiga/configure
 ADD ./start /usr/local/taiga/start
 RUN chmod +x /usr/local/taiga/configure /usr/local/taiga/start
+ADD https://raw.githubusercontent.com/taigaio/taiga-contrib-slack/stable/front/dist/slack.js /usr/local/taiga/taiga-front-dist/dist/js/
+RUN cd /usr/local/taiga/taiga-front-dist/dist/js/ && chmod 644 *.js
 
 EXPOSE 80 443
 
