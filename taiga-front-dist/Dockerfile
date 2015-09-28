@@ -1,6 +1,6 @@
 FROM nginx:1.7
 
-MAINTAINER Hylke Visser <htdvisser@gmail.com>
+MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
 # Install Git
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
@@ -20,12 +20,13 @@ RUN \
   mkdir -p /usr/local/taiga && \
   git clone https://github.com/taigaio/taiga-front-dist.git /usr/local/taiga/taiga-front-dist && \
   cd /usr/local/taiga/taiga-front-dist && \
+  git checkout stable
 
 # Configuration and Start scripts
 ADD ./configure /usr/local/taiga/configure
 ADD ./start /usr/local/taiga/start
 RUN chmod +x /usr/local/taiga/configure /usr/local/taiga/start
-ADD https://raw.githubusercontent.com/taigaio/taiga-contrib-slack/stable/front/dist/slack.js /usr/local/taiga/taiga-front-dist/dist/js/
+ADD https://raw.githubusercontent.com/taigaio/taiga-contrib-slack/0.0.8/front/dist/slack.js /usr/local/taiga/taiga-front-dist/dist/js/
 RUN cd /usr/local/taiga/taiga-front-dist/dist/js/ && chmod 644 *.js
 
 EXPOSE 80 443
