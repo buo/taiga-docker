@@ -19,6 +19,7 @@ RUN \
   git checkout stable && \
   pip install -r requirements.txt && \
   pip install taiga-contrib-slack && \
+  pip install taiga-contrib-ldap-auth && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
   touch /usr/local/taiga/circus.ini
 
