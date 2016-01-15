@@ -7,7 +7,14 @@ RUN \
   apt-get update -qq && \
   apt-get install -y netcat && \
   rm -rf /var/lib/apt/lists/* && \
-  pip install circus gunicorn
+  pip install gunicorn && \
+  cd /root && \
+  git clone https://github.com/circus-tent/circus.git && \
+  cd circus && \
+  pip install pyzmq && \
+  python setup.py install && \
+  cd / && \
+  rm -rf /root/circus
 
 # Install taiga-back
 RUN \
@@ -20,7 +27,8 @@ RUN \
   pip install -r requirements.txt && \
   pip install taiga-contrib-slack && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
-  touch /usr/local/taiga/circus.ini
+  touch /usr/local/taiga/circus.ini && \
+  chown -R taiga:taiga /usr/local/taiga
 
 # Add Taiga Configuration
 ADD ./local.py /usr/local/taiga/taiga-back/settings/local.py
