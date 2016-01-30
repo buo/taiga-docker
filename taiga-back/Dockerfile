@@ -23,7 +23,7 @@ RUN \
   git clone https://github.com/taigaio/taiga-back.git /usr/local/taiga/taiga-back && \
   mkdir /usr/local/taiga/media /usr/local/taiga/static /usr/local/taiga/logs && \
   cd /usr/local/taiga/taiga-back && \
-  git checkout 1.9.0 && \
+  git checkout 1.9.1 && \
   pip install -r requirements.txt && \
   pip install taiga-contrib-slack && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
