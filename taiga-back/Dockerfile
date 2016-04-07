@@ -14,12 +14,11 @@ RUN \
   mkdir -p /usr/local/taiga && \
   useradd -d /usr/local/taiga taiga && \
   git clone https://github.com/taigaio/taiga-back.git /usr/local/taiga/taiga-back && \
-  mkdir /usr/local/taiga/media /usr/local/taiga/static /usr/local/taiga/logs && \
+  mkdir /usr/local/taiga/{media,static,logs} && chown -R taiga /usr/local/taiga/{media,static,logs} && \
   cd /usr/local/taiga/taiga-back && \
   git checkout stable && \
   pip install -r requirements.txt && \
-  pip install taiga-contrib-slack && \
-  pip install taiga-contrib-ldap-auth && \
+  pip install taiga-contrib-slack==1.10 && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
   touch /usr/local/taiga/circus.ini
 
@@ -29,6 +28,8 @@ ADD ./local.py /usr/local/taiga/taiga-back/settings/local.py
 # Configure and Start scripts
 ADD ./configure /usr/local/taiga/configure
 ADD ./start /usr/local/taiga/start
+ADD storage.patch /usr/local/taiga/taiga-back/taiga/base
+RUN cd /usr/local/taiga/taiga-back/taiga/base && patch < storage.patch
 RUN chmod +x /usr/local/taiga/configure /usr/local/taiga/start
 
 VOLUME /usr/local/taiga/media
