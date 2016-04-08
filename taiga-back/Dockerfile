@@ -7,7 +7,7 @@ RUN \
   apt-get update -qq && \
   apt-get install -y netcat && \
   rm -rf /var/lib/apt/lists/* && \
-  pip install circus gunicorn
+  pip install circus
 
 # Install taiga-back
 RUN \
@@ -16,7 +16,7 @@ RUN \
   git clone https://github.com/taigaio/taiga-back.git /usr/local/taiga/taiga-back && \
   mkdir /usr/local/taiga/{media,static,logs} && chown -R taiga /usr/local/taiga/{media,static,logs} && \
   cd /usr/local/taiga/taiga-back && \
-  git checkout stable && \
+  git checkout 1.10.0 && \
   pip install -r requirements.txt && \
   pip install taiga-contrib-slack==1.10 && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
