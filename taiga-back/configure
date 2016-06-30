@@ -6,7 +6,7 @@ POSTGRES_USER=${POSTGRES_USER:-$POSTGRES_ENV_POSTGRES_USER}
 POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-$POSTGRES_ENV_POSTGRES_PASSWORD}
 
 #@TODO add ldap variables
-
+HOSTNAME=$(hostname)
 MEDIA_URL=${MEDIA_URL:-http://$HOSTNAME/media/}
 STATIC_URL=${STATIC_URL:-http://$HOSTNAME/static/}
 FRONT_SCHEME=${FRONT_SCHEME:-http}
@@ -29,7 +29,7 @@ from .common import *
 
 DATABASES = {
    'default': {
-       'ENGINE': 'transaction_hooks.backends.postgresql_psycopg2',
+       'ENGINE': 'django.db.backends.postgresql',
        'NAME': '${POSTGRES_DB_NAME}',
        'USER': '${POSTGRES_USER}',
        'PASSWORD': '${POSTGRES_PASSWORD}',
