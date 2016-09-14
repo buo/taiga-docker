@@ -2,11 +2,14 @@ FROM python:3.4
 
 MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
+
+ENV TAIGA_BACK_VERSION 2.1.0
+ENV TAIGA_CONTRIB_SLACK 2.1
 # Install dependencies
 RUN \
   apt-get update -qq && \
   apt-get install -y netcat && \
-  rm -rf /var/lib/apt/lists/* && \
+  apt-get autoremove -y && rm -rf /var/lib/apt/lists/* && \
   pip install circus
 
 # Install taiga-back
@@ -14,11 +17,13 @@ RUN \
   mkdir -p /usr/local/taiga && \
   useradd -d /usr/local/taiga taiga && \
   git clone https://github.com/taigaio/taiga-back.git /usr/local/taiga/taiga-back && \
-  mkdir /usr/local/taiga/{media,static,logs} && chown -R taiga /usr/local/taiga/{media,static,logs} && \
+  mkdir /usr/local/taiga/media && chown -R taiga /usr/local/taiga/media && \
+  mkdir /usr/local/taiga/static && chown -R taiga /usr/local/taiga/static && \
+  mkdir /usr/local/taiga/logs && chown -R taiga /usr/local/taiga/logs && \
   cd /usr/local/taiga/taiga-back && \
-  git checkout 1.10.0 && \
+  git checkout ${TAIGA_BACK_VERSION} && \
   pip install -r requirements.txt && \
-  pip install taiga-contrib-slack==1.10 && \
+  pip install taiga-contrib-slack==${TAIGA_CONTRIB_SLACK} && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
   touch /usr/local/taiga/circus.ini
 
@@ -28,8 +33,6 @@ ADD ./local.py /usr/local/taiga/taiga-back/settings/local.py
 # Configure and Start scripts
 ADD ./configure /usr/local/taiga/configure
 ADD ./start /usr/local/taiga/start
-ADD storage.patch /usr/local/taiga/taiga-back/taiga/base
-RUN cd /usr/local/taiga/taiga-back/taiga/base && patch < storage.patch
 RUN chmod +x /usr/local/taiga/configure /usr/local/taiga/start
 
 VOLUME /usr/local/taiga/media

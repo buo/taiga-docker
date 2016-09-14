@@ -1,26 +1,39 @@
-# htdvisser/taiga-front-dist
+moss/taiga-front-dist
+====================
 
-[Taiga](https://taiga.io/) is a project management platform for startups and agile developers & designers who want a simple, beautiful tool that makes work truly enjoyable.
+# Introduction
 
-This Docker image can be used for running the Taiga frontend. It works together with the [htdvisser/taiga-back](https://registry.hub.docker.com/u/htdvisser/taiga-back/) image.
+[Taiga](https://taiga.io/) is a project management platform for startups and
+agile developers & designers who want a simple, beautiful tool that makes work
+truly enjoyable.
 
-[![GitHub stars](https://img.shields.io/github/stars/htdvisser/taiga-docker.svg?style=flat-square)](https://github.com/htdvisser/taiga-docker)
-[![GitHub forks](https://img.shields.io/github/forks/htdvisser/taiga-docker.svg?style=flat-square)](https://github.com/htdvisser/taiga-docker)
-[![GitHub issues](https://img.shields.io/github/issues/htdvisser/taiga-docker.svg?style=flat-square)](https://github.com/htdvisser/taiga-docker/issues)
+This Docker image can be used for running the Taiga frontend. It works together
+with the [moss/taiga-back](https://hub.docker.com/r/moss/taiga-front-dist/)
+image.
 
-## Running
+[![GitHub stars](https://img.shields.io/github/stars/moss-it/taiga-docker.svg?style=flat-square)](https://github.com/moss-it/taiga-docker)
+[![GitHub forks](https://img.shields.io/github/forks/moss-it/taiga-docker.svg?style=flat-square)](https://github.com/moss-it/taiga-docker)
+[![GitHub issues](https://img.shields.io/github/issues/moss-it/taiga-docker.svg?style=flat-square)](https://github.com/moss-it/taiga-docker/issues)
 
-A [htdvisser/taiga-back](https://registry.hub.docker.com/u/htdvisser/taiga-back/) container should be linked to the taiga-front-dist container. Also connect the volumes of this the taiga-back container if you want to serve the static files for the admin panel.
+# Quick start
 
-```
-docker run --name taiga_front_dist_container_name --link taiga_back_container_name:taigaback --volumes-from taiga_back_container_name htdvisser/taiga-front-dist
+A [moss/taiga-back](https://hub.docker.com/r/moss/taiga-front-dist/) container
+should be linked to the taiga-front-dist container. Also connect the volumes of
+this the taiga-back container if you want to serve the static files for the
+admin panel.
+
+```bash
+docker run --name taiga_front_dist_container_name --link \
+    taiga_back_container_name:taigaback --volumes-from taiga_back_container_name \
+    htdvisser/taiga-front-dist
 ```
 
 ## Docker-compose
 
-For a complete taiga installation (``htdvisser/taiga-back`` and ``htdvisser/taiga-front-dist``) you can use this docker-compose configuration:
+For a complete taiga installation (``moss/taiga-back`` and
+``moss/taiga-front-dist``) you can use this docker-compose configuration:
 
-```
+```bash
 data:
   image: tianon/true
   volumes:

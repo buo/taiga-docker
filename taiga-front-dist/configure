@@ -9,6 +9,7 @@ upstream taiga-back {
 EOL
 
 # Configure HTTP or HTTPS for nginx proxy
+
 WEB_CONFIG=web-${SCHEME:-http}.conf
 sed -i "/include .*.conf;/c\  include ${WEB_CONFIG};" /etc/nginx/nginx.conf
 
@@ -16,22 +17,27 @@ mkdir -p /etc/nginx/ssl
 [ ! -z "${SSL_CRT}" ] && echo "${SSL_CRT}" > /etc/nginx/ssl/ssl.crt
 [ ! -z "${SSL_KEY}" ] && echo "${SSL_KEY}" > /etc/nginx/ssl/ssl.key
 
-PUBLIC_REGISTER_ENABLED=${PUBLIC_REGISTER_ENABLED:-true}
+PUBLIC_REGISTER_ENABLED=${PUBLIC_REGISTER_ENABLED:-false}
 API=${API:-/api/v1/}
 
-cat > /usr/local/taiga/taiga-front-dist/dist/js/conf.json <<EOL
+cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
 
 {
-  "api": "${API}",
-  "eventsUrl": null,
-  "debug": false,
-  "publicRegisterEnabled": ${PUBLIC_REGISTER_ENABLED},
-  "feedbackEnabled": true,
-  "privacyPolicyUrl": null,
-  "termsOfServiceUrl": null,
-  "maxUploadFileSize": null,
-  "gitHubClientId": null,
-  "contribPlugins": ["/js/slack.js"] 
+    "api": "${API}",
+    "eventsUrl": null,
+    "eventsMaxMissedHeartbeats": 5,
+    "eventsHeartbeatIntervalTime": 60000,
+    "debug": "${DEBUG}",
+    "debugInfo": "${DEBUG}",
+    "defaultLanguage": "en",
+    "themes": ["taiga"],
+    "defaultTheme": "taiga",
+    "publicRegisterEnabled": ${PUBLIC_REGISTER_ENABLED},
+    "feedbackEnabled": true,
+    "privacyPolicyUrl": null,
+    "termsOfServiceUrl": null,
+    "maxUploadFileSize": null,
+    "contribPlugins": ["/plugins/slack/slack.json"] 
 }
 
 EOL
