@@ -3,8 +3,8 @@ FROM python:3.4
 MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
 
-ENV TAIGA_BACK_VERSION 2.1.0
-ENV TAIGA_CONTRIB_SLACK 2.1
+ENV TAIGA_BACK_VERSION 3.0.0
+ENV TAIGA_CONTRIB_SLACK 3.0
 # Install dependencies
 RUN \
   apt-get update -qq && \

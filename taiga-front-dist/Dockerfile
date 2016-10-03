@@ -1,8 +1,8 @@
 FROM nginx:1.7
 MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
-ENV TAIGA_FRONT_DIST_VERSION 2.1.0-stable
-ENV TAIGA_CONTRIB_SLACK_VERSION 2.1
+ENV TAIGA_FRONT_DIST_VERSION 3.0.0-stable
+ENV TAIGA_CONTRIB_SLACK_VERSION 3.0
 ENV TAIGA_CONTRIB_SLACK_URL "https://github.com/taigaio/taiga-contrib-slack/tags/${TAIGA_CONTRIB_SLACK_VERSION}/front/dist"
 
 # Install Git
