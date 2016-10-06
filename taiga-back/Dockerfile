@@ -8,7 +8,7 @@ ENV TAIGA_CONTRIB_SLACK 3.0
 # Install dependencies
 RUN \
   apt-get update -qq && \
-  apt-get install -y netcat && \
+  apt-get install -y gettext netcat && \
   apt-get autoremove -y && rm -rf /var/lib/apt/lists/* && \
   pip install circus
 
