@@ -25,7 +25,7 @@ admin panel.
 ```bash
 docker run --name taiga_front_dist_container_name --link \
     taiga_back_container_name:taigaback --volumes-from taiga_back_container_name \
-    htdvisser/taiga-front-dist
+    moss-it/taiga-front-dist
 ```
 
 ## Docker-compose
@@ -49,7 +49,7 @@ db:
   volumes_from:
     - data
 taigaback:
-  image: htdvisser/taiga-back:stable
+  image: moss-it/taiga-back:stable
   hostname: dev.example.com
   environment:
     SECRET_KEY: examplesecretkey
@@ -63,7 +63,7 @@ taigaback:
   volumes_from:
     - data
 taigafront:
-  image: htdvisser/taiga-front-dist:stable
+  image: moss-it/taiga-front-dist:stable
   hostname: dev.example.com
   links:
     - taigaback
@@ -87,7 +87,7 @@ data:
 db:
   ...
 taigaback:
-  image: htdvisser/taiga-back:stable
+  image: moss-it/taiga-back:stable
   hostname: dev.example.com
   environment:
     ...
@@ -98,7 +98,7 @@ taigaback:
   volumes_from:
     - data
 taigafront:
-  image: htdvisser/taiga-front-dist:stable
+  image: moss-it/taiga-front-dist:stable
   hostname: dev.example.com
   environment:
     SCHEME: https
