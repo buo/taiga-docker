@@ -1,7 +1,7 @@
 moss/taiga-front-dist
 ====================
 
-# Introduction
+## Introduction
 
 [Taiga](https://taiga.io/) is a project management platform for startups and
 agile developers & designers who want a simple, beautiful tool that makes work
@@ -15,7 +15,7 @@ image.
 [![GitHub forks](https://img.shields.io/github/forks/moss-it/taiga-docker.svg?style=flat-square)](https://github.com/moss-it/taiga-docker)
 [![GitHub issues](https://img.shields.io/github/issues/moss-it/taiga-docker.svg?style=flat-square)](https://github.com/moss-it/taiga-docker/issues)
 
-# Quick start
+## Quick start
 
 A [moss/taiga-back](https://hub.docker.com/r/moss/taiga-front-dist/) container
 should be linked to the taiga-front-dist container. Also connect the volumes of
@@ -24,8 +24,8 @@ admin panel.
 
 ```bash
 docker run --name taiga_front_dist_container_name --link \
-    taiga_back_container_name:taigaback --volumes-from taiga_back_container_name \
-    moss-it/taiga-front-dist
+    taiga_back_container_name:taigaback --volumes-from \
+    taiga_back_container_name moss-it/taiga-front-dist
 ```
 
 ## Docker-compose
@@ -41,7 +41,7 @@ data:
     - /usr/local/taiga/media
     - /usr/local/taiga/static
     - /usr/local/taiga/logs
-db:
+postgres:
   image: postgres
   environment:
     POSTGRES_USER: taiga
@@ -49,24 +49,33 @@ db:
   volumes_from:
     - data
 taigaback:
-  image: moss-it/taiga-back:stable
+  image: moss/taiga-back
   hostname: dev.example.com
   environment:
     SECRET_KEY: examplesecretkey
-    EMAIL_USE_TLS: True
+    EMAIL_USE_TLS: 'True'
     EMAIL_HOST: smtp.gmail.com
     EMAIL_PORT: 587
     EMAIL_HOST_USER: youremail@gmail.com
     EMAIL_HOST_PASSWORD: yourpassword
+    LDAP_ENABLED: 'True'
+    LDAP_SERVER: "ldap://openldap"
+    LDAP_PORT: 389
+    LDAP_BIND_DN: "cn=admin,dc=example,dc=com"
+    LDAP_BIND_PASSWORD: 'securepassword'
+    LDAP_SEARCH_BASE: "ou=people,cn=admin,dc=example,dc=com"
+    LDAP_FULL_NAME_PROPERTY: 'cn'
   links:
-    - db:postgres
+    - postgres:postgres
   volumes_from:
     - data
 taigafront:
-  image: moss-it/taiga-front-dist:stable
+  image: moss/taiga-front-dist
   hostname: dev.example.com
   links:
     - taigaback
+  environment:
+    LDAP_ENABLED: 'True'
   volumes_from:
     - data
   ports:
@@ -119,12 +128,14 @@ taigafront:
     - 0.0.0.0:443:443
 ```
 
-## Environment
+## Environment variables
 
 * ``PUBLIC_REGISTER_ENABLED`` defaults to ``true``
 * ``API`` defaults to ``"/api/v1"``
 * ``SCHEME`` defaults to ``http``. If ``https`` is used either
-  * ``SSL_CRT`` and ``SSL_KEY`` needs to be set **or** 
-  * ``/etc/nginx/ssl/`` volume attached with ``ssl.crt`` and ``ssl.key`` files
+* ``SSL_CRT`` and ``SSL_KEY`` needs to be set **or** 
+* ``/etc/nginx/ssl/`` volume attached with ``ssl.crt`` and ``ssl.key`` files
 * ``SSL_CRT`` SSL certificate value. Valid only when ``SCHEME`` set to https.
 * ``SSL_KEY`` SSL certificate key. Valid only when ``SCHEME`` set to https.
+* ``LDAP_ENABLED`` defaults to ``False``, needs to be ``True`` to use ldap
+  login.

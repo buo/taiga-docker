@@ -1,9 +1,11 @@
 #!/bin/bash
 
+TAIGA_BACK_HOST=${TAIGA_BACK_HOST:-$TAIGABACK_PORT_8000_TCP_ADDR}
+
 cat > /etc/nginx/upstream.conf <<EOL
 
 upstream taiga-back {
-  server ${TAIGABACK_PORT_8000_TCP_ADDR}:8000;
+  server ${TAIGA_BACK_HOST}:8000;
 }
 
 EOL
@@ -19,6 +21,34 @@ mkdir -p /etc/nginx/ssl
 
 PUBLIC_REGISTER_ENABLED=${PUBLIC_REGISTER_ENABLED:-false}
 API=${API:-/api/v1/}
+LDAP_ENABLED=${LDAP_ENABLED:-False}
+
+
+if [[ ${LDAP_ENABLED} == True  ]]; then
+    cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
+
+{
+    "api": "${API}",
+    "eventsUrl": null,
+    "eventsMaxMissedHeartbeats": 5,
+    "eventsHeartbeatIntervalTime": 60000,
+    "debug": ${DEBUG},
+    "debugInfo": ${DEBUG},
+    "defaultLanguage": "pt-br",
+    "themes": ["taiga"],
+    "defaultTheme": "taiga",
+    "publicRegisterEnabled": ${PUBLIC_REGISTER_ENABLED},
+    "feedbackEnabled": true,
+    "privacyPolicyUrl": null,
+    "termsOfServiceUrl": null,
+    "maxUploadFileSize": null,
+    "loginFormType": "ldap",
+    "contribPlugins": ["/plugins/slack/slack.json"] 
+}
+
+EOL
+
+else
 
 cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
 
@@ -30,7 +60,6 @@ cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
     "debug": "${DEBUG}",
     "debugInfo": "${DEBUG}",
     "defaultLanguage": "en",
-    "themes": ["taiga"],
     "defaultTheme": "taiga",
     "publicRegisterEnabled": ${PUBLIC_REGISTER_ENABLED},
     "feedbackEnabled": true,
@@ -41,3 +70,6 @@ cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
 }
 
 EOL
+
+fi
+

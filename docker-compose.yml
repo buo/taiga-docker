@@ -5,7 +5,7 @@ data:
     - /usr/local/taiga/media
     - /usr/local/taiga/static
     - /usr/local/taiga/logs
-db:
+postgres:
   image: postgres
   environment:
     POSTGRES_USER: taiga
@@ -22,8 +22,15 @@ taigaback:
     EMAIL_PORT: 587
     EMAIL_HOST_USER: youremail@gmail.com
     EMAIL_HOST_PASSWORD: yourpassword
+    LDAP_ENABLED: 'True'
+    LDAP_SERVER: "ldap://openldap"
+    LDAP_PORT: 389
+    LDAP_BIND_DN: "cn=admin,dc=example,dc=com"
+    LDAP_BIND_PASSWORD: 'securepassword'
+    LDAP_SEARCH_BASE: "ou=people,cn=admin,dc=example,dc=com"
+    LDAP_FULL_NAME_PROPERTY: 'cn'
   links:
-    - db:postgres
+    - postgres:postgres
   volumes_from:
     - data
 taigafront:
@@ -31,6 +38,8 @@ taigafront:
   hostname: dev.example.com
   links:
     - taigaback
+  environment:
+    LDAP_ENABLED: 'True'
   volumes_from:
     - data
   ports:

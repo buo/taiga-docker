@@ -23,7 +23,7 @@ RUN \
   cd /usr/local/taiga/taiga-back && \
   git checkout ${TAIGA_BACK_VERSION} && \
   pip install -r requirements.txt && \
-  pip install taiga-contrib-slack==${TAIGA_CONTRIB_SLACK} && \
+  pip install taiga-contrib-slack==${TAIGA_CONTRIB_SLACK} taiga-contrib-ldap-auth && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
   touch /usr/local/taiga/circus.ini
 
