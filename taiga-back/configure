@@ -42,7 +42,7 @@ LDAP_SEARCH_SUFFIX=${LDAP_SEARCH_SUFFIX:-} # '@example.com'
 
 # Names of LDAP properties on user account to get email and full name
 LDAP_EMAIL_PROPERTY=${LDAP_EMAIL_PROPERTY:-'mail'}
-LDAP_FULL_NAME_PROPERTY=${LDAP_FULL_NAME_PROPERTY:- 'cn'}
+LDAP_FULL_NAME_PROPERTY=${LDAP_FULL_NAME_PROPERTY:-'cn'}
 
 cat > /usr/local/taiga/taiga-back/settings/dockerenv.py <<EOL
 from .common import *

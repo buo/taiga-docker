@@ -5,12 +5,15 @@ MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
 ENV TAIGA_BACK_VERSION 3.0.0
 ENV TAIGA_CONTRIB_SLACK 3.0
+ENV LANG en_US.UTF-8
+ENV LC_TYPE en_US.UTF-8
 # Install dependencies
 RUN \
   apt-get update -qq && \
-  apt-get install -y gettext netcat && \
+  apt-get install -y gettext netcat locales && \
   apt-get autoremove -y && rm -rf /var/lib/apt/lists/* && \
-  pip install circus
+  sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+  locale-gen && pip install circus
 
 # Install taiga-back
 RUN \
