@@ -1,4 +1,4 @@
-FROM nginx:1.7
+FROM nginx:1.13.3
 MAINTAINER Thiago Almeida <thiagoalmeidasa@gmail.com>
 
 ENV TAIGA_FRONT_DIST_VERSION 3.1.0-stable
